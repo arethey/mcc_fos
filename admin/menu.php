@@ -83,7 +83,7 @@
                             <tbody>
                                 <?php
 								$i = 1;
-								$cats = $conn->query("SELECT *, product_list.id as pId, category_list.id as catId, category_list.name as catName FROM product_list INNER JOIN category_list ON product_list.category_id = category_list.id order by product_list.id asc");
+								$cats = $conn->query("SELECT *, product_list.id as pId, category_list.id as catId, category_list.name as catName, product_list.name as prodName FROM product_list INNER JOIN category_list ON product_list.category_id = category_list.id order by product_list.id asc");
 								while($row=$cats->fetch_assoc()):
 								?>
                                 <tr>
@@ -95,7 +95,7 @@
                                             alt="" id="cimg">
                                     </td>
                                     <td class="">
-                                        <p>Name : <b><?php echo $row['name'] ?></b></p>
+                                        <p>Name : <b><?php echo $row['prodName'] ?></b></p>
                                         <p>Description : <b class="truncate"><?php echo $row['description'] ?></b></p>
                                         <p>Price : <b><?php echo "PHP: ".number_format($row['price'],2) ?></b></p>
                                         <p>Category : <b><?php echo $row['catName'] ?></b></p>
