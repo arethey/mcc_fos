@@ -147,6 +147,7 @@ Class Action {
 		$data .= ", price = '$price' ";
 		$data .= ", category_id = '$category_id' ";
 		$data .= ", description = '$description' ";
+		$data .= ", stocks = '$stocks' ";
 		if(isset($status) && $status  == 'on')
 		$data .= ", status = 1 ";
 		else
@@ -160,11 +161,12 @@ Class Action {
 		}
 		if(empty($id)){
 			$save = $this->db->query("INSERT INTO product_list set ".$data);
+			if($save) return 1;
 		}else{
 			$save = $this->db->query("UPDATE product_list set ".$data." where id=".$id);
+			if($save) return 2;
 		}
-		if($save)
-			return 1;
+		
 	}
 
 	function delete_menu(){
