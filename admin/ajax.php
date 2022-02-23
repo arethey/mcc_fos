@@ -86,3 +86,8 @@ if($action == "confirm_order"){
 		echo $save;
 }
 
+if($action == "remove_cart"){
+	$save = $crud->remove_cart();
+	if($save)
+		echo $save;
+}

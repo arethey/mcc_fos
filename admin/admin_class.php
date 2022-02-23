@@ -184,11 +184,35 @@ Class Action {
 		}else{
 			$ip = isset($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 			$data .= ", client_ip = '".$ip."' ";	
-
 		}
-		$save = $this->db->query("INSERT INTO cart set ".$data);
-		if($save)
-			return 1;
+
+		$cart_qry = $this->db->query("SELECT * FROM cart where product_id =".$pid);
+		$row_cnt = $cart_qry->num_rows;
+
+		if($row_cnt === 1){
+			while($row= $cart_qry->fetch_assoc()){
+				$newQty = $row['qty'] + $qty;
+				$data2 = " qty = $newQty ";
+				$save = $this->db->query("UPDATE cart set ".$data2." where id = ".$row['id']);
+			}
+		}else{
+			//save to cart
+			$save = $this->db->query("INSERT INTO cart set ".$data);
+		}
+
+		if($save){
+			//adjust product stocks
+			$qry = $this->db->query("SELECT * FROM product_list where id =".$pid);
+			while($row= $qry->fetch_assoc()){
+				$remaining_stocks = $row['stocks'] - $qty;
+				$data = " stocks = '$remaining_stocks' ";
+				$save2 = $this->db->query("UPDATE product_list set ".$data." where id = ".$pid);
+
+				if($save2){
+					return 1;
+				}
+			}
+		}
 	}
 	function get_cart_count(){
 		extract($_POST);
@@ -209,10 +233,30 @@ Class Action {
 
 	function update_cart_qty(){
 		extract($_POST);
-		$data = " qty = $qty ";
-		$save = $this->db->query("UPDATE cart set ".$data." where id = ".$id);
-		if($save)
-		return 1;	
+		//adjust product stocks
+		$qry = $this->db->query("SELECT * FROM product_list where id =".$pid);
+		while($row= $qry->fetch_assoc()){
+			if($qty == 0){
+				$save1 = $this->db->query("DELETE FROM cart where id= ".$id);
+
+				$remaining_stocks = $row['stocks'] + 1;
+			}else{
+				$data = " qty = $qty ";
+				$save1 = $this->db->query("UPDATE cart set ".$data." where id = ".$id);
+					
+				if($action == 'minus'){
+					$remaining_stocks = $row['stocks'] + 1;
+				}else if($action == 'plus'){
+					$remaining_stocks = $row['stocks'] - 1;
+				}
+			}
+		}
+
+		$stock_data = " stocks = '$remaining_stocks' ";
+		$save2 = $this->db->query("UPDATE product_list set ".$stock_data." where id = ".$pid);
+		if($save2){
+			return 1;
+		}
 	}
 
 	function save_order(){
@@ -243,6 +287,24 @@ function confirm_order(){
 		$save = $this->db->query("UPDATE orders set status = 1 where id= ".$id);
 		if($save)
 			return 1;
+}
+
+function remove_cart(){
+	extract($_POST);
+	$save1 = $this->db->query("DELETE FROM cart where id= ".$cartId);
+	if($save1){
+		//adjust product stocks
+		$qry = $this->db->query("SELECT * FROM product_list where id =".$productId);
+		while($row= $qry->fetch_assoc()){
+			$remaining_stocks = $row['stocks'] + $qty;
+			$data = " stocks = '$remaining_stocks' ";
+			$save2 = $this->db->query("UPDATE product_list set ".$data." where id = ".$productId);
+
+			if($save2){
+				return 1;
+			}
+		}
+	}
 }
 
 }
