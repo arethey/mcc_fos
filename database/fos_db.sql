@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2022 at 04:02 AM
+-- Generation Time: Feb 26, 2022 at 07:21 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 7.4.20
 
@@ -51,11 +51,10 @@ CREATE TABLE `category_list` (
 --
 
 INSERT INTO `category_list` (`id`, `name`) VALUES
-(1, 'Beverages'),
-(3, 'Best Sellers'),
-(4, 'Meals'),
-(5, 'Snacks'),
-(6, 'Dessert');
+(1, 'Crabs'),
+(3, 'Scallops'),
+(4, 'Shrimp'),
+(5, 'Squid');
 
 -- --------------------------------------------------------
 
@@ -77,7 +76,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `name`, `address`, `mobile`, `email`, `status`) VALUES
-(6, 'Ardie Derrayal', 'lawis', '123', 'ardie@gmail.com', 0);
+(6, 'Ardie Derrayal', 'lawis', '123', 'ardie@gmail.com', 1),
+(7, 'ardie derrayal', 'lawis', '122', 'cx1@gmail.com', 1);
 
 -- --------------------------------------------------------
 
@@ -97,7 +97,8 @@ CREATE TABLE `order_list` (
 --
 
 INSERT INTO `order_list` (`id`, `order_id`, `product_id`, `qty`) VALUES
-(12, 6, 8, 2);
+(12, 6, 8, 2),
+(13, 7, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -112,15 +113,17 @@ CREATE TABLE `product_list` (
   `description` text NOT NULL,
   `price` float NOT NULL DEFAULT 0,
   `img_path` text NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '0= unavailable, 2 Available'
+  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '0= unavailable, 2 Available',
+  `stocks` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `product_list`
 --
 
-INSERT INTO `product_list` (`id`, `category_id`, `name`, `description`, `price`, `img_path`, `status`) VALUES
-(8, 0, 'test1', 'test1', 100, '1645324020_astronaut.jpg', 0);
+INSERT INTO `product_list` (`id`, `category_id`, `name`, `description`, `price`, `img_path`, `status`, `stocks`) VALUES
+(8, 1, 'Crabs test', 'test1', 100, '1645324020_astronaut.jpg', 0, 299),
+(10, 4, 'Shrimp test', 'test2', 100, '1645594800_animals.jpg', 0, 10);
 
 -- --------------------------------------------------------
 
@@ -188,7 +191,8 @@ CREATE TABLE `user_info` (
 INSERT INTO `user_info` (`user_id`, `first_name`, `last_name`, `email`, `password`, `mobile`, `address`) VALUES
 (1, 'James', 'Smith', 'jsmith@sample.com', '1254737c076cf867dc53d60a0364f38e', '4756463215', 'adasdasd asdadasd'),
 (2, 'Camp', 'Codes', 'admin@campcodes.com', '827ccb0eea8a706c4c34a16891f84e7b', '+639079373', '06106 Capitol Site, Brgy. Washington'),
-(3, 'Ardie', 'Derrayal', 'ardie@gmail.com', '202cb962ac59075b964b07152d234b70', '123', 'lawis');
+(3, 'Ardie', 'Derrayal', 'ardie@gmail.com', '202cb962ac59075b964b07152d234b70', '123', 'lawis'),
+(4, 'ardie', 'derrayal', 'cx1@gmail.com', '5f4dcc3b5aa765d61d8327deb882cf99', '122', 'lawis');
 
 --
 -- Indexes for dumped tables
@@ -250,7 +254,7 @@ ALTER TABLE `user_info`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `category_list`
@@ -262,19 +266,19 @@ ALTER TABLE `category_list`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `order_list`
 --
 ALTER TABLE `order_list`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `product_list`
 --
 ALTER TABLE `product_list`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `system_settings`
@@ -292,7 +296,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_info`
 --
 ALTER TABLE `user_info`
-  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
