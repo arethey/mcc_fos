@@ -54,7 +54,7 @@
                             <?php 
 			$i = 1;
 			while($row=$resultOrders->fetch_assoc()):
-            $posted_date = date_format(date_create($row['posted_date2']),"F j, Y, g:i a");
+            $posted_date = date_format(date_create($row['order_date']),"F j, Y, g:i a");
                 
 			 ?>
             
@@ -108,7 +108,7 @@
 			 ?>
                             <tr>
                                 <td><?php echo $i++ ?></td>
-                                <!--<td><?php echo $row['posted_date2'] ?></td>-->
+                                <!--<td><?php echo $row['order_date'] ?></td>-->
                                 <td><?php echo $row['name'] ?></td>
                                 <td><?php echo $row['address'] ?></td>
                                 <td><?php echo $row['email'] ?></td>

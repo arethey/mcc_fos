@@ -64,7 +64,7 @@ INSERT INTO `category_list` (`id`, `name`) VALUES
 
 CREATE TABLE `orders` (
   `id` int(30) NOT NULL,
-  `posted_date2` datetime(6) NOT NULL DEFAULT current_timestamp(6),
+  `order_date` datetime(6) NOT NULL DEFAULT current_timestamp(6),
   `name` text NOT NULL,
   `address` text NOT NULL,
   `mobile` text NOT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `posted_date2`, `name`, `address`, `mobile`, `email`, `status`) VALUES
+INSERT INTO `orders` (`id`, `order_date`, `name`, `address`, `mobile`, `email`, `status`) VALUES
 (61, '2022-03-06 11:56:44.733942', 'Mary Lyn', 'suba bantayan', '09090', 'mary@gmail.com', 1),
 (63, '2022-03-06 14:35:55.215631', 'King Mark', 'tarong madridejos', '0909', 'ki@gmail.com', 1),
 (65, '2022-03-07 18:05:11.347780', 'ian gwapo', 'ticad bantayan', '099845898', 'ian@gmail.com', 1),
