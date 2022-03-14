@@ -1,7 +1,6 @@
  <!-- Masthead-->
  
  <?php 
-
 if(!isset($_SESSION['login_user_id']))
  header("location: index.php?page=home");
  ?>
@@ -86,12 +85,16 @@ if(!isset($_SESSION['login_user_id']))
                                 }
                                 ?>
                                 <td>
-                                    <button type="button" class="btn btn-warning">
-                                        Cancel
-                                    </button>
-                                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#itemsModal">
+                                    <a href="index.php?page=order&id=<?php echo $row['order_id']?>" class="btn btn-sm btn-primary">
                                         View
-                                    </button> -->
+                                    </a>
+                                    <?php
+                                    if($row['status'] == 0){
+                                        echo ' <button type="button" class="btn btn-sm btn-warning">
+                                        Cancel
+                                    </button>';
+                                    }
+                                     ?>
                                 </td>
 
                                 <!-- <td><?php echo $row['price']?></td>
@@ -130,21 +133,4 @@ if(!isset($_SESSION['login_user_id']))
             </div>
         </div>
     </div>
-</div>
-
-
-<div class="modal fade" id="itemsModal" tabindex="-1" role="dialog" aria-labelledby="itemsModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="itemsModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-    </div>
-  </div>
 </div>
