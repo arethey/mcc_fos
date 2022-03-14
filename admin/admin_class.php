@@ -53,6 +53,7 @@ Class Action {
 		session_destroy();
 		foreach ($_SESSION as $key => $value) {
 			unset($_SESSION[$key]);
+             $total = 0;
 		}
 		header("location:../index.php");
 	}
@@ -261,19 +262,55 @@ Class Action {
 		}
 	}
 
+
+function update_cart_qty2(){
+		extract($_POST);
+		//adjust product stocks
+		$qry = $this->db->query("SELECT * FROM product_list where id =".$pid);
+		while($row= $qry->fetch_assoc()){
+			if($qty == 0){
+				$save1 = $this->db->query("DELETE FROM order_list where id= ".$id);
+
+				$remaining_stocks = $row['stocks'] + 1;
+			}else{
+				$data = " qty = $qty ";
+				$save1 = $this->db->query("UPDATE cart set ".$data." where id = ".$id);
+					
+				if($action == 'minus'){
+					$remaining_stocks = $row['stocks'] + 1;
+				}else if($action == 'plus'){
+					$remaining_stocks = $row['stocks'] - 1;
+				}
+			}
+		}
+
+		$stock_data = " stocks = '$remaining_stocks' ";
+		$save2 = $this->db->query("UPDATE product_list set ".$stock_data." where id = ".$pid);
+		if($save2){
+			return 1;
+		}
+	}
+
+
 	function save_order(){
 		extract($_POST);
+
+		
+		//$data = " posted_date2 = '$dte' ";
 		$data = " name = '".$first_name." ".$last_name."' ";
 		$data .= ", address = '$address' ";
 		$data .= ", mobile = '$mobile' ";
 		$data .= ", email = '$email' ";
 		$save = $this->db->query("INSERT INTO orders set ".$data);
 		if($save){
+			//$date = date("y-m-d h:i:s");
 			$id = $this->db->insert_id;
 			$qry = $this->db->query("SELECT * FROM cart where user_id =".$_SESSION['login_user_id']);
 			while($row= $qry->fetch_assoc()){
-
+					
 					$data = " order_id = '$id' ";
+					//$data = " posted_date = '$date' ";
+					$data .= ", user_id = '".$row['user_id']."' ";
 					$data .= ", product_id = '".$row['product_id']."' ";
 					$data .= ", qty = '".$row['qty']."' ";
 					$save2=$this->db->query("INSERT INTO order_list set ".$data);
@@ -294,6 +331,24 @@ function confirm_order(){
 function remove_cart(){
 	extract($_POST);
 	$save1 = $this->db->query("DELETE FROM cart where id= ".$cartId);
+	if($save1){
+		//adjust product stocks
+		$qry = $this->db->query("SELECT * FROM product_list where id =".$productId);
+		while($row= $qry->fetch_assoc()){
+			$remaining_stocks = $row['stocks'] + $qty;
+			$data = " stocks = '$remaining_stocks' ";
+			$save2 = $this->db->query("UPDATE product_list set ".$data." where id = ".$productId);
+
+			if($save2){
+				return 1;
+			}
+		}
+	}
+}
+
+function remove_cart2(){
+	extract($_POST);
+	$save1 = $this->db->query("DELETE FROM order_list where id= ".$orderId);
 	if($save1){
 		//adjust product stocks
 		$qry = $this->db->query("SELECT * FROM product_list where id =".$productId);

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 26, 2022 at 07:21 AM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 7.4.20
+-- Generation Time: Mar 14, 2022 at 10:15 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -64,6 +64,7 @@ INSERT INTO `category_list` (`id`, `name`) VALUES
 
 CREATE TABLE `orders` (
   `id` int(30) NOT NULL,
+  `posted_date2` datetime(6) NOT NULL DEFAULT current_timestamp(6),
   `name` text NOT NULL,
   `address` text NOT NULL,
   `mobile` text NOT NULL,
@@ -75,9 +76,12 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `name`, `address`, `mobile`, `email`, `status`) VALUES
-(6, 'Ardie Derrayal', 'lawis', '123', 'ardie@gmail.com', 1),
-(7, 'ardie derrayal', 'lawis', '122', 'cx1@gmail.com', 1);
+INSERT INTO `orders` (`id`, `posted_date2`, `name`, `address`, `mobile`, `email`, `status`) VALUES
+(61, '2022-03-06 11:56:44.733942', 'Mary Lyn', 'suba bantayan', '09090', 'mary@gmail.com', 1),
+(63, '2022-03-06 14:35:55.215631', 'King Mark', 'tarong madridejos', '0909', 'ki@gmail.com', 1),
+(65, '2022-03-07 18:05:11.347780', 'ian gwapo', 'ticad bantayan', '099845898', 'ian@gmail.com', 1),
+(78, '2022-03-13 07:34:49.774722', 'King Mark', 'tarong madridejos', '0909', 'ki@gmail.com', 0),
+(79, '2022-03-13 08:58:07.162345', 'Gerold Jumawan', 'Guiwanon bantayan cebu', '0909123123', 'ge@gmail.com', 0);
 
 -- --------------------------------------------------------
 
@@ -87,6 +91,7 @@ INSERT INTO `orders` (`id`, `name`, `address`, `mobile`, `email`, `status`) VALU
 
 CREATE TABLE `order_list` (
   `id` int(30) NOT NULL,
+  `user_id` int(50) NOT NULL,
   `order_id` int(30) NOT NULL,
   `product_id` int(30) NOT NULL,
   `qty` int(30) NOT NULL
@@ -96,9 +101,14 @@ CREATE TABLE `order_list` (
 -- Dumping data for table `order_list`
 --
 
-INSERT INTO `order_list` (`id`, `order_id`, `product_id`, `qty`) VALUES
-(12, 6, 8, 2),
-(13, 7, 8, 1);
+INSERT INTO `order_list` (`id`, `user_id`, `order_id`, `product_id`, `qty`) VALUES
+(55, 9, 61, 8, 1),
+(56, 9, 61, 10, 1),
+(58, 8, 63, 8, 6),
+(61, 10, 65, 8, 2),
+(74, 8, 78, 10, 1),
+(75, 11, 79, 8, 2),
+(76, 11, 79, 10, 1);
 
 -- --------------------------------------------------------
 
@@ -122,8 +132,10 @@ CREATE TABLE `product_list` (
 --
 
 INSERT INTO `product_list` (`id`, `category_id`, `name`, `description`, `price`, `img_path`, `status`, `stocks`) VALUES
-(8, 1, 'Crabs test', 'test1', 100, '1645324020_astronaut.jpg', 0, 299),
-(10, 4, 'Shrimp test', 'test2', 100, '1645594800_animals.jpg', 0, 10);
+(8, 1, 'Crabs', 'test1', 100, '1645324020_astronaut.jpg', 0, 175),
+(10, 4, 'Shrimp', 'test2', 100, '1645594800_animals.jpg', 0, 12),
+(15, 3, 'adobo', 'scalop adobo', 150, '1646642640_1600415520_avatar.jpg', 0, 16),
+(16, 4, 'kinilaw', 'shrimp kinilaw', 200, '1646729160_lemon iced tea.jpg', 0, 7);
 
 -- --------------------------------------------------------
 
@@ -189,10 +201,10 @@ CREATE TABLE `user_info` (
 --
 
 INSERT INTO `user_info` (`user_id`, `first_name`, `last_name`, `email`, `password`, `mobile`, `address`) VALUES
-(1, 'James', 'Smith', 'jsmith@sample.com', '1254737c076cf867dc53d60a0364f38e', '4756463215', 'adasdasd asdadasd'),
-(2, 'Camp', 'Codes', 'admin@campcodes.com', '827ccb0eea8a706c4c34a16891f84e7b', '+639079373', '06106 Capitol Site, Brgy. Washington'),
-(3, 'Ardie', 'Derrayal', 'ardie@gmail.com', '202cb962ac59075b964b07152d234b70', '123', 'lawis'),
-(4, 'ardie', 'derrayal', 'cx1@gmail.com', '5f4dcc3b5aa765d61d8327deb882cf99', '122', 'lawis');
+(8, 'King', 'Mark', 'ki@gmail.com', 'b2086154f101464aab3328ba7e060deb', '0909', 'tarong madridejos'),
+(9, 'Mary', 'Lyn', 'mary@gmail.com', 'b8e7be5dfa2ce0714d21dcfc7d72382c', '09090', 'suba bantayan'),
+(10, 'ian', 'gwapo', 'ian@gmail.com', 'a71a448d3d8474653e831749b8e71fcc', '099845898', 'ticad bantayan'),
+(11, 'Gerold', 'Jumawan', 'ge@gmail.com', 'dc7e462eca72ba9c92a811853937e19c', '0909123123', 'Guiwanon bantayan cebu');
 
 --
 -- Indexes for dumped tables
@@ -254,7 +266,7 @@ ALTER TABLE `user_info`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
 -- AUTO_INCREMENT for table `category_list`
@@ -266,19 +278,19 @@ ALTER TABLE `category_list`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `order_list`
 --
 ALTER TABLE `order_list`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT for table `product_list`
 --
 ALTER TABLE `product_list`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `system_settings`
@@ -296,7 +308,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_info`
 --
 ALTER TABLE `user_info`
-  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

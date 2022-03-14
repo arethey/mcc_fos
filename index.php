@@ -35,7 +35,9 @@
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=cart_list"><span> <span class="badge badge-danger item_count">0</span> <i class="fa fa-shopping-cart"></i>  </span>Cart</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about">About</a></li>
                         <?php if(isset($_SESSION['login_user_id'])): ?>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin/ajax.php?action=logout2"><?php echo "Welcome ". $_SESSION['login_first_name'].' '.$_SESSION['login_last_name'] ?> <i class="fa fa-power-off"></i></a></li>
+
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=cart_list2"></i><span class="fa fa-user"></span></i></a></li><strong>|</strong></a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin/ajax.php?action=logout2"> <i class="fa fa-power-off"></i></a></li>
                       <?php else: ?>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="javascript:void(0)" id="login_now">Login</a></li>
                       <?php endif; ?>

@@ -16,6 +16,8 @@
             <div class="card-body">
                 <form action="" id="checkout">
                     <h4>Confirm Delivery Information</h4>
+
+
                     <div class="form-group">
                         <label for="" class="control-label">Firstname</label>
                         <input type="text" name="first_name" required="" class="form-control" value="<?php echo $_SESSION['login_first_name'] ?>">

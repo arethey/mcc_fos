@@ -41,6 +41,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Date</th>
                                 <th>Name</th>
                                 <th>Address</th>
                                 <th>Email</th>
@@ -53,9 +54,14 @@
                             <?php 
 			$i = 1;
 			while($row=$resultOrders->fetch_assoc()):
+            $posted_date = date_format(date_create($row['posted_date2']),"F j, Y, g:i a");
+                
 			 ?>
+            
+ 
                             <tr>
-                                <td><?php echo $i++ ?></td>
+                                                          <td><?php echo $i++ ?></td>
+                                <td><?php echo $posted_date ?></td>
                                 <td><?php echo $row['name'] ?></td>
                                 <td><?php echo $row['address'] ?></td>
                                 <td><?php echo $row['email'] ?></td>
@@ -85,6 +91,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <!--<th>Date</th>-->
                                 <th>Name</th>
                                 <th>Address</th>
                                 <th>Email</th>
@@ -97,9 +104,11 @@
                             <?php 
 			$i = 1;
 			while($row=$resultApprovedOrders->fetch_assoc()):
+              
 			 ?>
                             <tr>
                                 <td><?php echo $i++ ?></td>
+                                <!--<td><?php echo $row['posted_date2'] ?></td>-->
                                 <td><?php echo $row['name'] ?></td>
                                 <td><?php echo $row['address'] ?></td>
                                 <td><?php echo $row['email'] ?></td>

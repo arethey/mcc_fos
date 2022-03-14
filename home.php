@@ -27,6 +27,10 @@
                      <h5 class="card-title"><?php echo $row['name'] ?></h5>
                      <p class="card-text truncate"><?php echo $row['description'] ?></p>
                      <p>
+                         <span class="small text-muted">Unit Price:</span>
+                         <span><?php echo $row['price'] ?></span>
+                    </p>
+                     <p>
                          <span class="small text-muted">Stocks: </span>
                          <span><?php echo $row['stocks'] ?></span>
                      </p>
