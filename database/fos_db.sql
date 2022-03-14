@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2022 at 10:15 AM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.27
+-- Generation Time: Mar 14, 2022 at 11:07 AM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 7.4.20
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -64,24 +64,25 @@ INSERT INTO `category_list` (`id`, `name`) VALUES
 
 CREATE TABLE `orders` (
   `id` int(30) NOT NULL,
-  `order_date` datetime(6) NOT NULL DEFAULT current_timestamp(6),
   `name` text NOT NULL,
   `address` text NOT NULL,
   `mobile` text NOT NULL,
   `email` text NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 0
+  `status` tinyint(1) NOT NULL DEFAULT 0,
+  `order_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `order_date`, `name`, `address`, `mobile`, `email`, `status`) VALUES
-(61, '2022-03-06 11:56:44.733942', 'Mary Lyn', 'suba bantayan', '09090', 'mary@gmail.com', 1),
-(63, '2022-03-06 14:35:55.215631', 'King Mark', 'tarong madridejos', '0909', 'ki@gmail.com', 1),
-(65, '2022-03-07 18:05:11.347780', 'ian gwapo', 'ticad bantayan', '099845898', 'ian@gmail.com', 1),
-(78, '2022-03-13 07:34:49.774722', 'King Mark', 'tarong madridejos', '0909', 'ki@gmail.com', 0),
-(79, '2022-03-13 08:58:07.162345', 'Gerold Jumawan', 'Guiwanon bantayan cebu', '0909123123', 'ge@gmail.com', 0);
+INSERT INTO `orders` (`id`, `name`, `address`, `mobile`, `email`, `status`, `order_date`) VALUES
+(61, 'Mary Lyn', 'suba bantayan', '09090', 'mary@gmail.com', 1, '2022-03-14 17:52:26'),
+(63, 'King Mark', 'tarong madridejos', '0909', 'ki@gmail.com', 1, '2022-03-14 17:52:26'),
+(65, 'ian gwapo', 'ticad bantayan', '099845898', 'ian@gmail.com', 1, '2022-03-14 17:52:26'),
+(78, 'King Mark', 'tarong madridejos', '0909', 'ki@gmail.com', 0, '2022-03-14 17:52:26'),
+(79, 'Gerold Jumawan', 'Guiwanon bantayan cebu', '0909123123', 'ge@gmail.com', 0, '2022-03-14 17:52:26'),
+(80, 'ian gwapo', 'ticad bantayan', '099845898', 'ian@gmail.com', 0, '2022-03-14 17:54:00');
 
 -- --------------------------------------------------------
 
@@ -108,7 +109,9 @@ INSERT INTO `order_list` (`id`, `user_id`, `order_id`, `product_id`, `qty`) VALU
 (61, 10, 65, 8, 2),
 (74, 8, 78, 10, 1),
 (75, 11, 79, 8, 2),
-(76, 11, 79, 10, 1);
+(76, 11, 79, 10, 1),
+(77, 10, 80, 8, 1),
+(78, 10, 80, 10, 1);
 
 -- --------------------------------------------------------
 
@@ -132,8 +135,8 @@ CREATE TABLE `product_list` (
 --
 
 INSERT INTO `product_list` (`id`, `category_id`, `name`, `description`, `price`, `img_path`, `status`, `stocks`) VALUES
-(8, 1, 'Crabs', 'test1', 100, '1645324020_astronaut.jpg', 0, 175),
-(10, 4, 'Shrimp', 'test2', 100, '1645594800_animals.jpg', 0, 12),
+(8, 1, 'Crabs', 'test1', 100, '1645324020_astronaut.jpg', 0, 174),
+(10, 4, 'Shrimp', 'test2', 100, '1645594800_animals.jpg', 0, 11),
 (15, 3, 'adobo', 'scalop adobo', 150, '1646642640_1600415520_avatar.jpg', 0, 16),
 (16, 4, 'kinilaw', 'shrimp kinilaw', 200, '1646729160_lemon iced tea.jpg', 0, 7);
 
@@ -266,7 +269,7 @@ ALTER TABLE `user_info`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT for table `category_list`
@@ -278,13 +281,13 @@ ALTER TABLE `category_list`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `order_list`
 --
 ALTER TABLE `order_list`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `product_list`
