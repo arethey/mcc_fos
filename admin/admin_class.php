@@ -402,4 +402,15 @@ function cancel_order(){
 	}
 }
 
+function contact_us(){
+	extract($_POST);
+
+	$whom = "ardiederrayal06@gmail.com";
+	$comment = 'Name:'.$name.'\n Email:'.$email.'\n Message'.$message;
+
+    mail($whom,$subject,$comment);
+
+	return 1;
+}
+
 }

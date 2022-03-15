@@ -101,3 +101,8 @@ if($action == "cancel_order"){
 	$save = $crud->cancel_order();
 	if($save) echo $save;
 }
+
+if($action == "contact_us"){
+	$save = $crud->contact_us();
+	if($save) echo $save;
+}
