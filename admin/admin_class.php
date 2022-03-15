@@ -364,4 +364,19 @@ function remove_cart2(){
 	}
 }
 
+function add_stock(){
+	extract($_POST);
+	
+	$qry = $this->db->query("SELECT * FROM product_list where id =".$id);
+	while($row= $qry->fetch_assoc()){
+		$new_stocks = $row['stocks'] + $stocks;
+		$data = "stocks = '$new_stocks' ";
+		$save2 = $this->db->query("UPDATE product_list set ".$data." where id = ".$id);
+
+		if($save2){
+			return 1;
+		}
+	}
+}
+
 }

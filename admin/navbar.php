@@ -14,10 +14,14 @@
                     class="fa fa-users"></i></span> Users</a>
         <a href="index.php?page=site_settings" class="nav-item nav-site_settings"><span class='icon-field'><i
                     class="fa fa-cogs"></i></span> Site Settings</a>
-        <a href="index.php?page=sales_monitoring" class="nav-item nav-sales_monitoring">
+        <a href="index.php?page=inventory" class="nav-item nav-inventory">
             <span class='icon-field'>
                 <i class="fa fa-database"></i>
-            </span> Sales Monitoring</a>
+            </span> Inventory</a>
+            <a href="index.php?page=sales_report" class="nav-item nav-sales_report">
+            <span class='icon-field'>
+                <i class="fa fa-file"></i>
+            </span> Sales Report</a>
         <?php endif; ?>
     </div>
 

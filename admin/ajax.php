@@ -91,3 +91,8 @@ if($action == "remove_cart"){
 	if($save)
 		echo $save;
 }
+
+if($action == "add_stock"){
+	$save = $crud->add_stock();
+	if($save) echo $save;
+}

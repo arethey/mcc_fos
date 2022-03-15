@@ -21,6 +21,20 @@
 	body{
         background: #80808045;
   }
+
+  @media print{
+    body * {
+      visibility: hidden;
+    }
+    .print_container, .print_container *{
+      visibility: visible;
+    }
+    .print_container {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  }
 </style>
 
 <body>
