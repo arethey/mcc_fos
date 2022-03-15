@@ -379,4 +379,27 @@ function add_stock(){
 	}
 }
 
+function cancel_order(){
+	extract($_POST);
+	
+	//update order status
+	$save = $this->db->query("UPDATE orders set status = 2 where id= ".$id);
+	if($save) {
+		//get order from order list
+		$order_list_qry = $this->db->query("SELECT * FROM order_list where order_id =".$id);
+		while($row= $order_list_qry->fetch_assoc()){
+			//get product from product list
+			$product_list_qry = $this->db->query("SELECT * FROM product_list where id =".$row['product_id']);
+			while($row2= $product_list_qry->fetch_assoc()){
+				//update stocks
+				$new_stocks = $row2['stocks'] + $row['qty'];
+				$data = "stocks = '$new_stocks' ";
+				$save2 = $this->db->query("UPDATE product_list set ".$data." where id = ".$row2['id']);
+			}
+		}
+		
+		return 1;
+	}
+}
+
 }

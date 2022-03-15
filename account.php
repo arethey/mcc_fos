@@ -34,7 +34,7 @@ if(!isset($_SESSION['login_user_id']))
                     $ip = isset($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
                     $data = "where c.client_ip = '".$ip."' ";
                 }
-                $get = $conn->query("SELECT *, count(ol.product_id) as totalItems from orders o INNER JOIN order_list ol ON o.id = ol.order_id WHERE ol.user_id =". $_SESSION['login_user_id']." GROUP BY ol.order_id");
+                $get = $conn->query("SELECT *, count(ol.product_id) as totalItems from orders o INNER JOIN order_list ol ON o.id = ol.order_id WHERE ol.user_id =". $_SESSION['login_user_id']." GROUP BY ol.order_id desc");
 
                 // $get = $conn->query("SELECT *,
                 //     c.id as cid, p.id as pid 
@@ -90,7 +90,7 @@ if(!isset($_SESSION['login_user_id']))
                                     </a>
                                     <?php
                                     if($row['status'] == 0){
-                                        echo ' <button type="button" class="btn btn-sm btn-warning">
+                                        echo ' <button type="button" class="btn btn-sm btn-warning" onclick="handleCancel('.$row['order_id'].')">
                                         Cancel
                                     </button>';
                                     }
@@ -134,3 +134,26 @@ if(!isset($_SESSION['login_user_id']))
         </div>
     </div>
 </div>
+
+<script>
+    function handleCancel(id) {
+        if(confirm("Are you sure you want to cancel this order")){
+            start_load()
+            $.ajax({
+                url: 'admin/ajax.php?action=cancel_order',
+                method: "POST",
+                data: {
+                    id,
+                },
+                success: function(resp) {
+                    if (resp == 1) {
+                        alert_toast("Order cancelled successfully.", 'success')
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    }
+                }
+            })
+        }
+    }
+</script>

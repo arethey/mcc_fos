@@ -96,3 +96,8 @@ if($action == "add_stock"){
 	$save = $crud->add_stock();
 	if($save) echo $save;
 }
+
+if($action == "cancel_order"){
+	$save = $crud->cancel_order();
+	if($save) echo $save;
+}
