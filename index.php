@@ -34,6 +34,7 @@
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=home">Home</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=cart_list"><span> <span class="badge badge-danger item_count">0</span> <i class="fa fa-shopping-cart"></i>  </span>Cart</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about">About</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=contact">Contact Us!</a></li>
                         <?php if(isset($_SESSION['login_user_id'])): ?>
 
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=account"></i><span class="fa fa-user"></span></i></a></li><strong>|</strong></a></li>
