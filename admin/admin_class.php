@@ -405,10 +405,14 @@ function cancel_order(){
 function contact_us(){
 	extract($_POST);
 
-	$whom = "ardiederrayal06@gmail.com";
-	$comment = 'Name:'.$name.'\n Email:'.$email.'\n Message'.$message;
+	// echo $_POST['name'];
+	// echo $email;
+	// echo $message;
 
-    mail($whom,$subject,$comment);
+	// $whom = "ardiederrayal06@gmail.com"; //"cynthiadianneaque@gmail.com";
+	// $comment = 'Name:'.$name.'\n Email:'.$email.'\n Message'.$message;
+
+    mail("ardiederrayal06@gmail.com","test","test");
 
 	return 1;
 }

@@ -1,3 +1,20 @@
+<?php
+    if(isset($_POST["send-submit"])){
+        $email = $_POST["email"];
+        $name = $_POST["name"];
+        $subject = $_POST["subject"];
+        $message = $_POST["message"];
+        $whom = "cynthiadianneaque@gmail.com";
+
+        $comment = "Name: ".$name."\n";
+        $comment .= "Email: ".$email."\n";
+        $comment .= "Message: ".$message."\n";
+        
+        mail($whom, $subject, $comment);
+        echo '<script>alert("Message sent.")</script>';
+    }
+?>
+
 <header class="masthead">
     <div class="container h-100">
         <div class="row h-100 align-items-center justify-content-center text-center">
@@ -15,22 +32,22 @@
         <p class="text-center w-responsive mx-auto mb-5">Do you have any questions? Please do not hesitate to contact us directly. Our team will come back to you within
     a matter of hours to help you.</p>
 
-        <form id="contact-form">
+        <form id="contact-form" action="" method="POST">
             <!--Grid row-->
             <div class="row">
                 <!--Grid column-->
                 <div class="col-md-6">
                     <div class="md-form mb-0">
-                        <input type="text" id="name" name="name" class="form-control" required />
-                        <label for="name" class="">Your name</label>
+                    <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required />
                     </div>
                 </div>
                 <!--Grid column-->
                 <!--Grid column-->
                 <div class="col-md-6">
                     <div class="md-form mb-0">
-                        <input type="email" id="email" name="email" class="form-control" required />
-                        <label for="email" class="">Your email</label>
+                        <label for="email">Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" required />
                     </div>
                 </div>
                 <!--Grid column-->
@@ -40,8 +57,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="md-form mb-0">
-                        <input type="text" id="subject" name="subject" class="form-control" required/ >
-                        <label for="subject" class="">Subject</label>
+                        <label for="subject">Subject</label>
+                        <input type="text" class="form-control" id="subject" name="subject" required />
                     </div>
                 </div>
             </div>
@@ -52,20 +69,21 @@
                 <div class="col-md-12">
 
                     <div class="md-form">
-                        <textarea type="text" id="message" name="message" rows="4" class="form-control md-textarea" required></textarea>
                         <label for="message">Your message</label>
+                        <textarea type="text" id="message" name="message" rows="4" class="form-control md-textarea" required></textarea>
                     </div>
                 </div>
             </div>
             <!--Grid row-->
-            <button type="submit" class="btn btn-block btn-primary mt-3">Send</button>
+            <button type="submit" class="btn btn-block btn-primary mt-3" name="send-submit">Send</button>
         </form>
     </div>
 </div>
 
-<script>
+<!-- <script>
     $('#contact-form').submit(function(e){
         e.preventDefault()
+        console.log('here', $(this).serialize())
     
         start_load()
         $.ajax({
@@ -75,11 +93,9 @@
             success:function(resp){
                 if(resp==1){
                     alert_toast("Message sent.")
-                    setTimeout(function(){
-                        location.reload();
-                    },1500)
+                    
                 }
             }
         })
     })
-</script>
+</script> -->

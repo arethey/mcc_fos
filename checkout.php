@@ -36,6 +36,15 @@
                         <input type="email" name="email" required="" class="form-control" value="<?php echo $_SESSION['login_email'] ?>">
                     </div>  
 
+                    <div class="w-100 m-auto my-3" style="max-width: 400px">
+                        <div class="alert alert-info text-center" role="alert">
+                            <p class="mb-0">Cash On Delivery - Available</p>
+                        </div>
+                        <div class="alert alert-info text-center" role="alert">
+                            <p class="mb-0"><del>GCASH</del> - Unavailable</p>
+                        </div>
+                    </div>
+
                     <div class="text-center">
                         <button class="btn btn-block btn-outline-primary">Place Order</button>
                     </div>
