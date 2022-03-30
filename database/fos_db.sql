@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2022 at 11:07 AM
+-- Generation Time: Mar 30, 2022 at 08:40 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 7.4.20
 
@@ -34,6 +34,14 @@ CREATE TABLE `cart` (
   `product_id` int(30) NOT NULL,
   `qty` int(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`id`, `client_ip`, `user_id`, `product_id`, `qty`) VALUES
+(119, '', 12, 10, 1),
+(120, '::1', 10, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -82,7 +90,10 @@ INSERT INTO `orders` (`id`, `name`, `address`, `mobile`, `email`, `status`, `ord
 (65, 'ian gwapo', 'ticad bantayan', '099845898', 'ian@gmail.com', 1, '2022-03-14 17:52:26'),
 (78, 'King Mark', 'tarong madridejos', '0909', 'ki@gmail.com', 0, '2022-03-14 17:52:26'),
 (79, 'Gerold Jumawan', 'Guiwanon bantayan cebu', '0909123123', 'ge@gmail.com', 0, '2022-03-14 17:52:26'),
-(80, 'ian gwapo', 'ticad bantayan', '099845898', 'ian@gmail.com', 0, '2022-03-14 17:54:00');
+(80, 'ian gwapo', 'ticad bantayan', '099845898', 'ian@gmail.com', 2, '2022-03-14 17:54:00'),
+(81, 'ian gwapo', 'ticad bantayan', '099845898', 'ian@gmail.com', 2, '2022-03-15 21:40:28'),
+(82, 'ian gwapo', 'ticad bantayan', '099845898', 'ian@gmail.com', 2, '2022-03-17 21:10:47'),
+(83, 'ian gwapo', 'ticad bantayan', '099845898', 'ian@gmail.com', 2, '2022-03-17 21:11:34');
 
 -- --------------------------------------------------------
 
@@ -111,7 +122,10 @@ INSERT INTO `order_list` (`id`, `user_id`, `order_id`, `product_id`, `qty`) VALU
 (75, 11, 79, 8, 2),
 (76, 11, 79, 10, 1),
 (77, 10, 80, 8, 1),
-(78, 10, 80, 10, 1);
+(78, 10, 80, 10, 1),
+(79, 10, 81, 10, 3),
+(80, 10, 82, 15, 1),
+(81, 10, 83, 15, 3);
 
 -- --------------------------------------------------------
 
@@ -136,9 +150,9 @@ CREATE TABLE `product_list` (
 
 INSERT INTO `product_list` (`id`, `category_id`, `name`, `description`, `price`, `img_path`, `status`, `stocks`) VALUES
 (8, 1, 'Crabs', 'test1', 100, '1645324020_astronaut.jpg', 0, 174),
-(10, 4, 'Shrimp', 'test2', 100, '1645594800_animals.jpg', 0, 11),
-(15, 3, 'adobo', 'scalop adobo', 150, '1646642640_1600415520_avatar.jpg', 0, 16),
-(16, 4, 'kinilaw', 'shrimp kinilaw', 200, '1646729160_lemon iced tea.jpg', 0, 7);
+(10, 4, 'Shrimp', 'test2', 100, '1645594800_animals.jpg', 0, 12),
+(15, 3, 'adobo', 'scalop adobo', 150, '1646642640_1600415520_avatar.jpg', 0, 11),
+(16, 4, 'kinilaw', 'shrimp kinilaw', 200, '1646729160_lemon iced tea.jpg', 0, 10);
 
 -- --------------------------------------------------------
 
@@ -160,7 +174,7 @@ CREATE TABLE `system_settings` (
 --
 
 INSERT INTO `system_settings` (`id`, `name`, `email`, `contact`, `cover_img`, `about_content`) VALUES
-(1, 'Test System Name', 'admin@admin.com', '+639079373999', '1645323480_1079195.jpg', '&lt;p style=&quot;text-align: center; background: transparent; position: relative;&quot;&gt;&lt;span style=&quot;font-size:28px;background: transparent; position: relative;&quot;&gt;&lt;b style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: &amp;quot;Open Sans&amp;quot;, Arial, sans-serif; text-align: justify;&quot;&gt;NICE!&lt;/b&gt;&lt;br&gt;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center; background: transparent; position: relative;&quot;&gt;&lt;span style=&quot;font-size:28px;background: transparent; position: relative;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: &amp;quot;Open Sans&amp;quot;, Arial, sans-serif; font-weight: 400; text-align: justify;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center; background: transparent; position: relative;&quot;&gt;&lt;/p&gt;&lt;h2 style=&quot;font-size:28px;background: transparent; position: relative;&quot;&gt;Where does it come from?&lt;/h2&gt;&lt;p style=&quot;text-align: center; margin-bottom: 15px; padding: 0px; color: rgb(0, 0, 0); font-family: &amp;quot;Open Sans&amp;quot;, Arial, sans-serif; font-weight: 400;&quot;&gt;Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.&lt;/p&gt;&lt;p&gt;&lt;/p&gt;');
+(1, 'Test System Name', 'cynthiadianneaque@gmail.com', '+639079373999', '1645323480_1079195.jpg', '&lt;p style=&quot;text-align: center; background: transparent; position: relative;&quot;&gt;&lt;span style=&quot;font-size:28px;background: transparent; position: relative;&quot;&gt;&lt;b style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: &amp;quot;Open Sans&amp;quot;, Arial, sans-serif; text-align: justify;&quot;&gt;NICE!&lt;/b&gt;&lt;br&gt;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center; background: transparent; position: relative;&quot;&gt;&lt;span style=&quot;font-size:28px;background: transparent; position: relative;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: &amp;quot;Open Sans&amp;quot;, Arial, sans-serif; font-weight: 400; text-align: justify;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center; background: transparent; position: relative;&quot;&gt;&lt;/p&gt;&lt;h2 style=&quot;font-size:28px;background: transparent; position: relative;&quot;&gt;Where does it come from?&lt;/h2&gt;&lt;p style=&quot;text-align: center; margin-bottom: 15px; padding: 0px; color: rgb(0, 0, 0); font-family: &amp;quot;Open Sans&amp;quot;, Arial, sans-serif; font-weight: 400;&quot;&gt;Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.&lt;/p&gt;&lt;p&gt;&lt;/p&gt;');
 
 -- --------------------------------------------------------
 
@@ -207,7 +221,8 @@ INSERT INTO `user_info` (`user_id`, `first_name`, `last_name`, `email`, `passwor
 (8, 'King', 'Mark', 'ki@gmail.com', 'b2086154f101464aab3328ba7e060deb', '0909', 'tarong madridejos'),
 (9, 'Mary', 'Lyn', 'mary@gmail.com', 'b8e7be5dfa2ce0714d21dcfc7d72382c', '09090', 'suba bantayan'),
 (10, 'ian', 'gwapo', 'ian@gmail.com', 'a71a448d3d8474653e831749b8e71fcc', '099845898', 'ticad bantayan'),
-(11, 'Gerold', 'Jumawan', 'ge@gmail.com', 'dc7e462eca72ba9c92a811853937e19c', '0909123123', 'Guiwanon bantayan cebu');
+(11, 'Gerold', 'Jumawan', 'ge@gmail.com', 'dc7e462eca72ba9c92a811853937e19c', '0909123123', 'Guiwanon bantayan cebu'),
+(12, 'test', 'test', 'user1@gmail.com', '24c9e15e52afc47c225b757e7bee1f9d', '123', 'test');
 
 --
 -- Indexes for dumped tables
@@ -269,7 +284,7 @@ ALTER TABLE `user_info`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `category_list`
@@ -281,13 +296,13 @@ ALTER TABLE `category_list`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `order_list`
 --
 ALTER TABLE `order_list`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT for table `product_list`
@@ -311,7 +326,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_info`
 --
 ALTER TABLE `user_info`
-  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
