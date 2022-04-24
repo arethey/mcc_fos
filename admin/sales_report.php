@@ -13,13 +13,13 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="from_date">From</label>
-                            <input type="date" class="form-control" id="from_date" name="from_date" value="<?php if(isset($_GET['from_date'])) echo $_GET['from_date']; ?>" />
+                            <input type="date" class="form-control" id="from_date" name="from_date" value="<?php if(isset($_GET['from_date'])) echo $_GET['from_date']; ?>" onchange="handleChange(event, 'min')" />
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="to_date">To</label>
-                            <input type="date" class="form-control" id="to_date" name="to_date" value="<?php if(isset($_GET['to_date'])) echo $_GET['to_date']; ?>" />
+                            <input type="date" class="form-control" id="to_date" name="to_date" value="<?php if(isset($_GET['to_date'])) echo $_GET['to_date']; ?>" onchange="handleChange(event, 'max')" />
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -53,8 +53,10 @@
 
                             $orders = $conn->query("SELECT *,pl.name as itemName FROM order_list ol INNER JOIN product_list pl ON ol.product_id = pl.id INNER JOIN orders o ON ol.order_id = o.id WHERE o.status = 1 AND o.order_date BETWEEN '$from_date' AND '$to_date' ORDER BY o.id desc");
                             $i = 1;
+                            $total = 0;
                             while($row=$orders->fetch_assoc()){
                                 $id = $row['id'];
+                                $total=$total + number_format($row['qty'] * $row['price'],2);
                                 // $order_list = $conn->query("SELECT *, sum(ol.qty) as totalQty FROM order_list ol WHERE ol.order_id = '$id' INNER JOIN product_list pl ON ol.product_id = pl.id GROUP BY product_list.id");
                                 echo '<tr>';
                                 echo '<th scope="row">'.$i++.'</th>';
@@ -74,9 +76,47 @@
                                 // }
                                 echo '</tr>';
                             }
+                            echo '<tr>';
+                            echo '<td colspan="8" class="text-right">TOTAL: '.$total.'</td>';
+                            echo '</tr>';
                         }
                     ?>
                 </tbody>
             </table>
     </div>
 </div>
+
+<script>
+    function dateformat(date){
+        var d = new Date(date);
+        var day = d.getDate();
+        var month = d.getMonth() + 1;
+        var year = d.getFullYear();
+        return year + '-' + (month < 10 ? `0${month}` : month) + '-' + day;
+    }
+
+    function handlFilterDate(action, value) {
+        const date = new Date(value);
+        if(action === 'min'){
+            const nextday = date.setDate(date.getDate() + 1);
+            const _dateformat = dateformat(nextday)
+            document.getElementById("to_date").setAttribute("min", _dateformat)
+        }else if(action === 'max'){
+            const prevday = date.setDate(date.getDate() - 1);
+            const _dateformat = dateformat(prevday)
+            document.getElementById("from_date").setAttribute("max", _dateformat)
+        }
+    }
+
+    $(function() {
+        const from_date = document.getElementById("from_date");
+        const to_date = document.getElementById("to_date");
+
+        handlFilterDate("min", from_date.value);
+        handlFilterDate("max", to_date.value)
+    });
+
+    function handleChange(event, action){
+        handlFilterDate(action, event.target.value);
+    }
+</script>

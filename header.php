@@ -26,3 +26,5 @@
 
  		<script src="admin/assets/vendor/jquery/jquery.min.js"></script>
  		<script src="admin/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+
+		 <script src="https://www.google.com/recaptcha/api.js?render=6LcAgpgfAAAAAEGsx8P_gd5Ndm-VGpeWv7kQVwjf"></script>

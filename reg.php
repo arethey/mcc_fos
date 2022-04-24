@@ -31,11 +31,8 @@
 		<div class="form-group">
 			<label for="" class="control-label">Password</label>
 			<input type="password" name="password" required="" class="form-control">
-
-
-
-
 		</div>
+		<input type="hidden" name="token_generate" id="token_generate" />
 		<button class="button btn btn-info btn-sm">Create</button>
 	</form>
 </div>
@@ -70,4 +67,10 @@
 			}
 		})
 	})
+	grecaptcha.ready(function() {
+          grecaptcha.execute('6LcAgpgfAAAAAEGsx8P_gd5Ndm-VGpeWv7kQVwjf', {action: 'submit'}).then(function(token) {
+			  var response = document.getElementById('token_generate');
+			  if(response && token) response.value = token;
+          });
+        });
 </script>

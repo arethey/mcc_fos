@@ -1,4 +1,5 @@
 <?php session_start() ?>
+
 <div class="container-fluid">
 	<form action="" id="login-frm">
 		<div class="form-group">
@@ -10,6 +11,8 @@
 			<input type="password" name="password" required="" class="form-control">
 			<small><a href="javascript:void(0)" id="new_account">Create New Account</a></small>
 		</div>
+		<input type="hidden" name="token_generate" id="token_generate" />
+		<div class="g-recaptcha" data-sitekey="6LcPe5gfAAAAAGJD-mSDuu7cAoCuUU0bmDv-AtU2"></div>
 		<button class="button btn btn-info btn-sm">Login</button>
 	</form>
 </div>
@@ -48,4 +51,11 @@
 			}
 		})
 	})
+	grecaptcha.ready(function() {
+          grecaptcha.execute('6LcAgpgfAAAAAEGsx8P_gd5Ndm-VGpeWv7kQVwjf', {action: 'submit'}).then(function(token) {
+			  var response = document.getElementById('token_generate');
+			  if(response && token) response.value = token;
+          });
+        });
 </script>
+

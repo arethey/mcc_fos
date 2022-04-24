@@ -4,7 +4,8 @@
         $name = $_POST["name"];
         $subject = $_POST["subject"];
         $message = $_POST["message"];
-        $whom = "cynthiadianneaque@gmail.com";
+        // $whom = "cynthiadianneaque@gmail.com";
+        $whom = "drahcirbracero@gmail.com";
 
         $comment = "Name: ".$name."\n";
         $comment .= "Email: ".$email."\n";

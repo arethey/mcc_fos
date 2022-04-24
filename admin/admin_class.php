@@ -29,17 +29,28 @@ Class Action {
 	}
 	function login2(){
 		extract($_POST);
-		$qry = $this->db->query("SELECT * FROM user_info where email = '".$email."' and password = '".md5($password)."' ");
-		if($qry->num_rows > 0){
-			foreach ($qry->fetch_array() as $key => $value) {
-				if($key != 'passwors' && !is_numeric($key))
-					$_SESSION['login_'.$key] = $value;
+
+		$url = 'https://www.google.com/recaptcha/api/siteverify';
+		$secret = '6LcAgpgfAAAAAA7i1mYPscQSjilChjUSkwaJJSAW';
+		$response = $token_generate;
+		$remoteip = $_SERVER['REMOTE_ADDR'];
+
+		$request = file_get_contents($url.'?secret='.$secret.'&response='.$response);
+		$result = json_decode($request);
+
+		if($result->success == true){
+			$qry = $this->db->query("SELECT * FROM user_info where email = '".$email."' and password = '".md5($password)."' ");
+			if($qry->num_rows > 0){
+				foreach ($qry->fetch_array() as $key => $value) {
+					if($key != 'passwors' && !is_numeric($key))
+						$_SESSION['login_'.$key] = $value;
+				}
+				$ip = isset($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+				$this->db->query("UPDATE cart set user_id = '".$_SESSION['login_user_id']."' where client_ip ='$ip' ");
+					return 1;
+			}else{
+				return 3;
 			}
-			$ip = isset($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
-			$this->db->query("UPDATE cart set user_id = '".$_SESSION['login_user_id']."' where client_ip ='$ip' ");
-				return 1;
-		}else{
-			return 3;
 		}
 	}
 	function logout(){
@@ -201,21 +212,22 @@ Class Action {
 		}else{
 			//save to cart
 			$save = $this->db->query("INSERT INTO cart set ".$data);
+			return 1;
 		}
 
-		if($save){
-			//adjust product stocks
-			$qry = $this->db->query("SELECT * FROM product_list where id =".$pid);
-			while($row= $qry->fetch_assoc()){
-				$remaining_stocks = $row['stocks'] - $qty;
-				$data = " stocks = '$remaining_stocks' ";
-				$save2 = $this->db->query("UPDATE product_list set ".$data." where id = ".$pid);
+		// if($save){
+		// 	//adjust product stocks
+		// 	$qry = $this->db->query("SELECT * FROM product_list where id =".$pid);
+		// 	while($row= $qry->fetch_assoc()){
+		// 		$remaining_stocks = $row['stocks'] - $qty;
+		// 		$data = " stocks = '$remaining_stocks' ";
+		// 		$save2 = $this->db->query("UPDATE product_list set ".$data." where id = ".$pid);
 
-				if($save2){
-					return 1;
-				}
-			}
-		}
+		// 		if($save2){
+		// 			return 1;
+		// 		}
+		// 	}
+		// }
 	}
 	function get_cart_count(){
 		extract($_POST);
@@ -252,14 +264,17 @@ Class Action {
 				}else if($action == 'plus'){
 					$remaining_stocks = $row['stocks'] - 1;
 				}
+
+				return 1;
 			}
 		}
 
-		$stock_data = " stocks = '$remaining_stocks' ";
-		$save2 = $this->db->query("UPDATE product_list set ".$stock_data." where id = ".$pid);
-		if($save2){
-			return 1;
-		}
+		//update stocks
+		// $stock_data = " stocks = '$remaining_stocks' ";
+		// $save2 = $this->db->query("UPDATE product_list set ".$stock_data." where id = ".$pid);
+		// if($save2){
+		// 	return 1;
+		// }
 	}
 
 
@@ -324,25 +339,44 @@ function update_cart_qty2(){
 function confirm_order(){
 	extract($_POST);
 		$save = $this->db->query("UPDATE orders set status = 1 where id= ".$id);
-		if($save)
+		// if($save)
+		// 	return 1;
+
+		if($save) {
+			//get order from order list
+			$order_list_qry = $this->db->query("SELECT * FROM order_list where order_id =".$id);
+			while($row= $order_list_qry->fetch_assoc()){
+				//get product from product list
+				$product_list_qry = $this->db->query("SELECT * FROM product_list where id =".$row['product_id']);
+				while($row2= $product_list_qry->fetch_assoc()){
+					//update stocks
+					$new_stocks = $row2['stocks'] - $row['qty'];
+					$data = "stocks = '$new_stocks' ";
+					$save2 = $this->db->query("UPDATE product_list set ".$data." where id = ".$row2['id']);
+				}
+			}
+			
 			return 1;
+		}
 }
 
 function remove_cart(){
 	extract($_POST);
 	$save1 = $this->db->query("DELETE FROM cart where id= ".$cartId);
 	if($save1){
-		//adjust product stocks
-		$qry = $this->db->query("SELECT * FROM product_list where id =".$productId);
-		while($row= $qry->fetch_assoc()){
-			$remaining_stocks = $row['stocks'] + $qty;
-			$data = " stocks = '$remaining_stocks' ";
-			$save2 = $this->db->query("UPDATE product_list set ".$data." where id = ".$productId);
+		return 1;
 
-			if($save2){
-				return 1;
-			}
-		}
+		//adjust product stocks
+		// $qry = $this->db->query("SELECT * FROM product_list where id =".$productId);
+		// while($row= $qry->fetch_assoc()){
+		// 	$remaining_stocks = $row['stocks'] + $qty;
+		// 	$data = " stocks = '$remaining_stocks' ";
+		// 	$save2 = $this->db->query("UPDATE product_list set ".$data." where id = ".$productId);
+
+		// 	if($save2){
+		// 		return 1;
+		// 	}
+		// }
 	}
 }
 
@@ -384,22 +418,24 @@ function cancel_order(){
 	
 	//update order status
 	$save = $this->db->query("UPDATE orders set status = 2 where id= ".$id);
-	if($save) {
-		//get order from order list
-		$order_list_qry = $this->db->query("SELECT * FROM order_list where order_id =".$id);
-		while($row= $order_list_qry->fetch_assoc()){
-			//get product from product list
-			$product_list_qry = $this->db->query("SELECT * FROM product_list where id =".$row['product_id']);
-			while($row2= $product_list_qry->fetch_assoc()){
-				//update stocks
-				$new_stocks = $row2['stocks'] + $row['qty'];
-				$data = "stocks = '$new_stocks' ";
-				$save2 = $this->db->query("UPDATE product_list set ".$data." where id = ".$row2['id']);
-			}
-		}
+	return 1;
+
+	// if($save) {
+	// 	//get order from order list
+	// 	$order_list_qry = $this->db->query("SELECT * FROM order_list where order_id =".$id);
+	// 	while($row= $order_list_qry->fetch_assoc()){
+	// 		//get product from product list
+	// 		$product_list_qry = $this->db->query("SELECT * FROM product_list where id =".$row['product_id']);
+	// 		while($row2= $product_list_qry->fetch_assoc()){
+	// 			//update stocks
+	// 			$new_stocks = $row2['stocks'] + $row['qty'];
+	// 			$data = "stocks = '$new_stocks' ";
+	// 			$save2 = $this->db->query("UPDATE product_list set ".$data." where id = ".$row2['id']);
+	// 		}
+	// 	}
 		
-		return 1;
-	}
+	// 	return 1;
+	// }
 }
 
 function contact_us(){

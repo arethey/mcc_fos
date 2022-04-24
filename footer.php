@@ -76,7 +76,7 @@ window.alert_toast= function($msg = 'TEST',$bg = 'success'){
     })
   }
   $('#login_now').click(function(){
-    uni_modal("LOGIN",'login.php')
+    uni_modal("LOGIN",'login.php');
   })
   $(document).ready(function(){
     load_cart()
