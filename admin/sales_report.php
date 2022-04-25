@@ -13,13 +13,13 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="from_date">From</label>
-                            <input type="date" class="form-control" id="from_date" name="from_date" value="<?php if(isset($_GET['from_date'])) echo $_GET['from_date']; ?>" onchange="handleChange(event, 'min')" />
+                            <input type="date" class="form-control" id="from_date" name="from_date" value="<?php if(isset($_GET['from_date'])) echo $_GET['from_date']; ?>" onchange="handleChange(event, 'min')" required />
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="to_date">To</label>
-                            <input type="date" class="form-control" id="to_date" name="to_date" value="<?php if(isset($_GET['to_date'])) echo $_GET['to_date']; ?>" onchange="handleChange(event, 'max')" />
+                            <input type="date" class="form-control" id="to_date" name="to_date" value="<?php if(isset($_GET['to_date'])) echo $_GET['to_date']; ?>" onchange="handleChange(event, 'max')" required />
                         </div>
                     </div>
                     <div class="col-md-4">
